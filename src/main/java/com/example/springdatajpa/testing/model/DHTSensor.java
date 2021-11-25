@@ -1,28 +1,49 @@
 package com.example.springdatajpa.testing.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Entity
-@Table(name = "DHTSensor")
 public class DHTSensor {
 	
+	public DHTSensor(float temperature, float humidity, String location) {
+		this.temperature = temperature;
+		this.humidity = humidity;
+		this.location = location;
+	}
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private int id;
+	private float temperature;
+	private float humidity;
+	private String location;
 	
-	@Column(name = "temperature", nullable = false)
-	private String temperature;
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public float getTemperature() {
+		return temperature;
+	}
+	public void setTemperature(float temperature) {
+		this.temperature = temperature;
+	}
+	public float getHumidity() {
+		return humidity;
+	}
+	public void setHumidity(float humidity) {
+		this.humidity = humidity;
+	}	
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 	
-	@Column(name = "humidity", nullable = false)
-	private String humidity;
+	
 
 }
