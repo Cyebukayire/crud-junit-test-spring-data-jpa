@@ -1,6 +1,7 @@
 package com.example.springdatajpa.testing.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,30 @@ public class DHTSensorService {
 		return dhtsensors;
 	}
 	
-	public List<DHTSesnor> getById() {
-		
+	public DHTSensor getById(int id) {
+		Optional<DHTSensor> dhtsensor = dhtSensorRepository.findById(id);
+		if(dhtsensor.isPresent()) {
+			return dhtsensor.get();
+		}
+		return null;
+	}
+	
+	public boolean deleteAll() {
+		List<DHTSensor> dhtsensors = dhtSensorRepository.findAll();
+		if(dhtsensors.size()!=0) {
+			dhtSensorRepository.deleteAll();
+			return true;
+		}
+		return false;
+	}
+	
+	public void deleteById(int id) {
+		dhtSensorRepository.deleteById(id);
+	}
+	
+	public void save() {
+		DHTSensor dhtsensor = new DHTSensor(105,29,44,"Nyarugenge");
+		dhtSensorRepository.save(dhtsensor);
 	}
 	
 }
