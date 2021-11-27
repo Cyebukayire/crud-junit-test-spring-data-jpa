@@ -16,11 +16,7 @@ public class DHTSensorService {
 	public DHTSensorRepository dhtSensorRepository;
 	
 	public List<DHTSensor> getAll(){
-		List<DHTSensor> dhtsensors = dhtSensorRepository.findAll();
-//		for(DHTSensor dhtsensor:dhtsensors) {
-//			dhtsensor.setValue()
-//		}
-		return dhtsensors;
+		return dhtSensorRepository.findAll();
 	}
 	
 	public DHTSensor getById(int id) {
@@ -31,22 +27,37 @@ public class DHTSensorService {
 		return null;
 	}
 	
-	public boolean deleteAll() {
+	public String deleteAll() {
 		List<DHTSensor> dhtsensors = dhtSensorRepository.findAll();
 		if(dhtsensors.size()!=0) {
 			dhtSensorRepository.deleteAll();
-			return true;
+			return "deleted successfully";
 		}
-		return false;
+		return null;
 	}
 	
-	public void deleteById(int id) {
-		dhtSensorRepository.deleteById(id);
+	public String deleteById(int id) {
+		Optional<DHTSensor> dhtsensor = dhtSensorRepository.findById(id);
+		if(dhtsensor.isPresent()) {
+			dhtSensorRepository.deleteById(id);
+			return "deleted successfully";
+		}else if(!(dhtsensor.isPresent())) {
+			return "not found";
+		}
+		return null;
 	}
 	
-	public void save() {
-		DHTSensor dhtsensor = new DHTSensor(105,29,44,"Nyarugenge");
-		dhtSensorRepository.save(dhtsensor);
+	public void create(DHTSensor dhtsensor) {
+		DHTSensor new_dhtsensor = new DHTSensor(
+				dhtsensor.getId(),
+				dhtsensor.getTemperature(),
+				dhtsensor.getHumidity(),
+				dhtsensor.getLocation()
+				);
+		dhtSensorRepository.save(new_dhtsensor);
 	}
 	
+	public boolean existsByLocation(String location) {
+		return dhtSensorRepository.existsByLocation(location);
+	}	
 }
