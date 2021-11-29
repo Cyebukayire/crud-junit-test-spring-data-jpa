@@ -1,6 +1,7 @@
 package com.example.springdatajpa.testing.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -12,11 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.academic.realassetmis.utils.Exceptions.ResourceNotFoundException;
+import com.example.springdatajpa.testing.dto.DHTSensorDto;
 import com.example.springdatajpa.testing.model.DHTSensor;
 import com.example.springdatajpa.testing.repository.DHTSensorRepository;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner .class)
 public class DHTSensorServiceTest {
@@ -43,7 +47,7 @@ public class DHTSensorServiceTest {
 		when(dhtSensorRepositoryMock.findById(106)).thenReturn(
 				Optional.of(new DHTSensor(106,23,30,"Karongi")
 						));
-		assertEquals(23, dhtSensorRepositoryMock.findById(106).get().getTemperature(), 0);
+		assertEquals(23, dhtSensorService.getById(106).getTemperature(), 0);
 	}
 	
 //	@Test()
@@ -53,10 +57,21 @@ public class DHTSensorServiceTest {
 	
 	@Test
 	public void save_success() {
-		DHTSensor dhtsensor = new DHTSensor(105, 54,43,"Rusizi");
-		when(dhtSensorRepositoryMock.save(dhtsensor)).thenReturn(dhtsensor);
-		assertEquals(43, dhtSensorRepositoryMock.findById(101).get().getHumidity(), 0);
+		DHTSensorDto dto = new DHTSensorDto(54,43,"Rusizi");
+		DHTSensor dhtsensor = new DHTSensor(105,54,43,"Rusizi");
+		when(dhtSensorRepositoryMock.save(any(DHTSensor.class))).thenReturn(dhtsensor);
+		assertEquals(43, dhtSensorService.create(dto).getHumidity(), 0);
 		
+	}
+	
+	@Test
+	public void update_success() {
+		DHTSensorDto dto = new DHTSensorDto(54,87,"Ruhango");
+		DHTSensor dhtsensor = new DHTSensor(101,43,76,"Muhanga");
+		when(dhtSensorRepositoryMock.findById(101)).thenReturn(Optional.of(dhtsensor));
+		when(dhtSensorRepositoryMock.save(dhtsensor)).thenReturn(dhtsensor);
+		DHTSensor updateDhtSensor = dhtSensorService.update(dhtsensor.getId(), dto);
+		assertEquals("Ruhango", updateDhtSensor.getLocation());		
 	}
 	
 	

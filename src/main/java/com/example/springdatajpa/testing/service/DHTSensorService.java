@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.springdatajpa.testing.dto.DHTSensorDto;
 import com.example.springdatajpa.testing.model.DHTSensor;
 import com.example.springdatajpa.testing.repository.DHTSensorRepository;
 
@@ -47,17 +48,30 @@ public class DHTSensorService {
 		return null;
 	}
 	
-	public void create(DHTSensor dhtsensor) {
-		DHTSensor new_dhtsensor = new DHTSensor(
-				dhtsensor.getId(),
-				dhtsensor.getTemperature(),
-				dhtsensor.getHumidity(),
-				dhtsensor.getLocation()
-				);
-		dhtSensorRepository.save(new_dhtsensor);
+	public DHTSensor create(DHTSensorDto dto) {
+		DHTSensor dhtsensor = new DHTSensor();
+				dhtsensor.setTemperature(dto.getTemperature());
+				dhtsensor.setHumidity(dto.getHumidity());
+				dhtsensor.setLocation(dto.getLocation());
+				
+		return dhtSensorRepository.save(dhtsensor);
 	}
 	
 	public boolean existsByLocation(String location) {
 		return dhtSensorRepository.existsByLocation(location);
+	}
+
+	public DHTSensor update(int id, DHTSensorDto dto){
+		Optional<DHTSensor> dhtsensorExists = dhtSensorRepository.findById(id);
+		if(dhtsensorExists.isPresent()) {
+			DHTSensor dhtsensor = dhtsensorExists.get();
+//			dhtsensor.setId(id);
+			dhtsensor.setTemperature(dto.getTemperature());
+			dhtsensor.setHumidity(dto.getHumidity());
+			dhtsensor.setLocation(dto.getLocation());
+			
+			return dhtSensorRepository.save(dhtsensor);
+		}
+		return null;
 	}	
 }
