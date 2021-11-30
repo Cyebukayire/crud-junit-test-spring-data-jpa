@@ -2,6 +2,7 @@ package com.example.springdatajpa.testing.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -16,8 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.springdatajpa.testing.dto.DHTSensorDto;
 import com.example.springdatajpa.testing.model.DHTSensor;
+import com.example.springdatajpa.testing.model.dto.DHTSensorDto;
 import com.example.springdatajpa.testing.repository.DHTSensorRepository;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -72,6 +73,15 @@ public class DHTSensorServiceTest {
 		when(dhtSensorRepositoryMock.save(dhtsensor)).thenReturn(dhtsensor);
 		DHTSensor updateDhtSensor = dhtSensorService.update(dhtsensor.getId(), dto);
 		assertEquals("Ruhango", updateDhtSensor.getLocation());		
+	}
+	
+	@Test
+	public void deleteById_success() {
+		DHTSensor dhtsensor = new DHTSensor(105,43,54,"Kayonza");
+		when(dhtSensorRepositoryMock.findById(105)).thenReturn(Optional.of(dhtsensor));
+		when(dhtSensorRepositoryMock.save(dhtsensor)).thenReturn(dhtsensor);
+		dhtSensorService.deleteDhtsensor(dhtsensor.getId());
+		verify(dhtSensorRepositoryMock).deleteById(dhtsensor.getId());
 	}
 	
 	
