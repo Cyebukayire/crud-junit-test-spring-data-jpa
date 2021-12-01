@@ -61,11 +61,6 @@ public class DHTSensorController {
 	public ResponseEntity<?> deleteDhtsensor(@RequestParam int id){
 		DHTSensor dhtsensor = dhtsensorService.deleteDhtsensor(id);
 		return ResponseEntity.ok(dhtsensor);
-	}
-	
-	
-	
-	
-	
+	}	
 	
 }
