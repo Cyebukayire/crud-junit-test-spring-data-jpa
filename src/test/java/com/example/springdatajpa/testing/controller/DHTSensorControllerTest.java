@@ -46,9 +46,9 @@ public class DHTSensorControllerTest {
 		MvcResult result = mockMvc
 				.perform(request)
 				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"id\":105,\"temperature\":34,\"humidity\":45,\"location\":\"Karongi\"}," +
-						"{\"id\":106,\"temperature\":89,\"humidity\":89,\"location\":\"Rusizi\"}]"))
+				.andExpect(content().json("[{\"id\":105,\"temperature\":34.0,\"humidity\":45.0,\"location\":\"Karongi\"},{\"id\":106,\"temperature\":89.0,\"humidity\":89.0,\"location\":\"Rusizi\"}]"))
                 .andReturn();
+		System.out.println(result);
 		
 	}
 	

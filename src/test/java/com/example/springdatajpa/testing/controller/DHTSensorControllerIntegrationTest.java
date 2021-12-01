@@ -5,11 +5,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.example.springdatajpa.testing.model.DHTSensor;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -25,14 +28,15 @@ public class DHTSensorControllerIntegrationTest {
 		JSONAssert.assertEquals("[{id:101}, {id:102}, {id:103}, {id:104}]", response, false);
 	}
 
-//	@Test
-//	public void getById_successEntity() throws JSONException{
-//		ResponseEntity<DHTSensor> response = this.restTemplate.getForEntity("all-dhtsensors/101",DHTSensor)
-//	}
-//	
+	@Test
+	public void getById_successEntity(){
+		ResponseEntity<DHTSensor> response = this.restTemplate.getForEntity("/all-dhtsensors/101", DHTSensor.class);
+		assertEquals(101, response.getBody().getId());
+	}
+
 //	@Test
 //	public void createDhtsensor_success {
 //		updateDhtsensor dhtsensor = new updateDhtsensor()
 //	}
-//	
+	
 }
