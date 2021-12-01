@@ -6,15 +6,15 @@ import javax.persistence.Id;
 @Entity
 public class DHTSensor {
 	
-public DHTSensor(int id, float temperature, float humidity, String location) {
+public DHTSensor(int id, double d, double e, String location) {
 		super();
 		this.id = id;
-		this.temperature = temperature;
-		this.humidity = humidity;
+		this.temperature = d;
+		this.humidity = e;
 		this.location = location;
 	}
 
-	public DHTSensor(float temperature, float humidity, String location) {
+	public DHTSensor(double temperature, double humidity, String location) {
 		this.temperature = temperature;
 		this.humidity = humidity;
 		this.location = location;
@@ -22,8 +22,8 @@ public DHTSensor(int id, float temperature, float humidity, String location) {
 	
 	@Id
 	private int id;
-	private float temperature;
-	private float humidity;
+	private double temperature;
+	private double humidity;
 	private String location;
 	
 	public DHTSensor() {
@@ -36,16 +36,16 @@ public DHTSensor(int id, float temperature, float humidity, String location) {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public float getTemperature() {
+	public double getTemperature() {
 		return temperature;
 	}
-	public void setTemperature(float temperature) {
+	public void setTemperature(double temperature) {
 		this.temperature = temperature;
 	}
-	public float getHumidity() {
+	public double getHumidity() {
 		return humidity;
 	}
-	public void setHumidity(float humidity) {
+	public void setHumidity(double humidity) {
 		this.humidity = humidity;
 	}	
 	public String getLocation() {

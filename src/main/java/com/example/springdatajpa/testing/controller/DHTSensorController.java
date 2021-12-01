@@ -39,7 +39,7 @@ public class DHTSensorController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(false, "Dhtsensor not found"));
 	}
 	
-	@PostMapping("/save-dhtsensor")
+	@PostMapping("/all-dhtsensors/save")
 	public ResponseEntity<?> saveDhtsensor(@RequestBody DHTSensorDto dto) {
 		if(dhtsensorService.existsByLocation(dto.getLocation())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dhtsensor already exists");
@@ -48,7 +48,7 @@ public class DHTSensorController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(dhtsensor);		
 	}
 	
-	@PutMapping("/update-dhtsensor")
+	@PutMapping("/all-dhtsensors/update")
 	public ResponseEntity<?> updateDhtsensor(@RequestParam int id, @RequestBody DHTSensorDto dto) {
 		DHTSensor dhtsensor = dhtsensorService.getById(id);
 		if(dhtsensor != null) {
@@ -57,7 +57,7 @@ public class DHTSensorController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dhtsensor does not exist");
 	}
 	
-	@DeleteMapping("/delete-dhtsensor")
+	@DeleteMapping("/all-dhtsensors/delete")
 	public ResponseEntity<?> deleteDhtsensor(@RequestParam int id){
 		DHTSensor dhtsensor = dhtsensorService.deleteDhtsensor(id);
 		return ResponseEntity.ok(dhtsensor);

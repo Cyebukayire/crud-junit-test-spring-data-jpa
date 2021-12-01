@@ -8,32 +8,32 @@ import lombok.Setter;
 @Getter
 public class DHTSensorDto {
 	
-	private float temperature;
+	private double temperature;
 	
-	private float humidity;
+	private double humidity;
 	
 	private String location;
 
-	public DHTSensorDto(float temperature, float humidity, String location) {
+	public DHTSensorDto(double temperature, double humidity, String location) {
 		super();
 		this.temperature = temperature;
 		this.humidity = humidity;
 		this.location = location;
 	}
 
-	public float getTemperature() {
+	public double getTemperature() {
 		return temperature;
 	}
 
-	public void setTemperature(float temperature) {
+	public void setTemperature(double temperature) {
 		this.temperature = temperature;
 	}
 
-	public float getHumidity() {
+	public double getHumidity() {
 		return humidity;
 	}
 
-	public void setHumidity(float humidity) {
+	public void setHumidity(double humidity) {
 		this.humidity = humidity;
 	}
 
@@ -44,6 +44,7 @@ public class DHTSensorDto {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
 	
 
 }
