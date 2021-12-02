@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.ArgumentMatchers.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.springdatajpa.testing.model.DHTSensor;
+import com.example.springdatajpa.testing.model.dto.DHTSensorDto;
 import com.example.springdatajpa.testing.service.DHTSensorService;
 
 @RunWith(SpringRunner.class)
@@ -84,7 +86,73 @@ public class DHTSensorControllerTest {
 				.andExpect(status().isNotFound())
                 .andExpect(content().json("{\"status\":false,\"message\":\"Dhtsensor not found\"}"))
 				.andReturn();	
-		
 	}
+	
+	@Test
+	public void update_success() throws Exception {
+		DHTSensor dhtsensor = new DHTSensor(105,23,34,"Huye");
+		when(dhtsensorServiceMock.update(any(int.class),any(DHTSensorDto.class))).thenReturn(dhtsensor);
+		when(dhtsensorServiceMock.getById(any(int.class))).thenReturn(dhtsensor);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.put("/all-dhtsensors/update/105")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content("{\"temperature\":34.0,\"humidity\":45.0,\"location\":\"Karongi\"}");
+		
+		MvcResult result = mockMvc
+				.perform(request)
+				.andExpect(status().isCreated())
+                .andExpect(content().json("{\"id\":105,\"temperature\":23.0,\"humidity\":34.0,\"location\":\"Huye\"}"))
+				.andReturn();	
 
+	}
+	
+	@Test
+	public void update_notfound() throws Exception {
+		when(dhtsensorServiceMock.update(any(int.class),any(DHTSensorDto.class))).thenReturn(null);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.put("/all-dhtsensors/update/105")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content("{\"temperature\":34.0,\"humidity\":45.0,\"location\":\"Karongi\"}");
+		
+		MvcResult result = mockMvc
+				.perform(request)
+				.andExpect(status().isNotFound())
+                .andExpect(content().json("{\"status\":false,\"message\":\"Dhtsensor does not exist\"}"))
+				.andReturn();
+	}
+	
+	@Test
+	public void delete_success() throws Exception {
+//		DHTSensor dhtsensor = 
+		when(dhtsensorServiceMock.deleteDhtsensor(any(int.class))).thenReturn(any(DHTSensor.class));
+
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.delete("/all-dhtsensors/delete/105")
+				.accept(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc
+				.perform(request)
+				.andExpect(status().isOk())
+				.andExpect(content().json("{\"temperature\":34.0,\"humidity\":45.0,\"location\":\"Karongi\"}"))
+				.andReturn();
+	}
+	
+	@Test
+	public void delete_failed() throws Exception {
+		when(dhtsensorServiceMock.deleteDhtsensor(any(int.class))).thenReturn(null);
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.delete("/all-dhtsensors/delete/105")
+				.accept(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc
+				.perform(request)
+				.andExpect(status().isNotFound())
+				.andExpect(content().json("{\"status\":false,\"message\":\"Dhtsensor does not exist\"}"))
+				.andReturn();
+	}
+	
 }

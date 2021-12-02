@@ -48,17 +48,17 @@ public class DHTSensorController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(dhtsensor);		
 	}
 	
-	@PutMapping("/all-dhtsensors/update")
-	public ResponseEntity<?> updateDhtsensor(@RequestParam int id, @RequestBody DHTSensorDto dto) {
+	@PutMapping("/all-dhtsensors/update/{id}")
+	public ResponseEntity<?> updateDhtsensor(@PathVariable(name = "id") int id, @RequestBody DHTSensorDto dto) {
 		DHTSensor dhtsensor = dhtsensorService.getById(id);
 		if(dhtsensor != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(dhtsensor);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dhtsensor does not exist");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(false, "Dhtsensor does not exist"));
 	}
 	
-	@DeleteMapping("/all-dhtsensors/delete")
-	public ResponseEntity<?> deleteDhtsensor(@RequestParam int id){
+	@DeleteMapping("/all-dhtsensors/delete/{id}")
+	public ResponseEntity<?> deleteDhtsensor(@PathVariable(name = "id") int id){
 		DHTSensor dhtsensor = dhtsensorService.deleteDhtsensor(id);
 		return ResponseEntity.ok(dhtsensor);
 	}	
